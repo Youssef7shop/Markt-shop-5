@@ -1,0 +1,8 @@
+{
+  "name": "DarkBoost ",
+  "description": "🚀 DarkBoost — منصتك الاحترافية لتطوير حسابات السوشيال ميديا بسرعة وقوة.\nنوفر خدمات عالية الجودة لزيادة المتابعين، اللايكات، المشاهدات والتفاعل على:\n\nInstagram\n\nTikTok\n\nYouTube\n\nFacebook\n\nTelegram\n\n\n⚡ سرعة في التنفيذ\n🔒 أمان وحماية\n💎 أسعار مناسبة\n📈 نتائج حقيقية\n🤖 دعم ذكي 24/7\n\nمع تصميم عصري Dark Neon وتجربة استخدام احترافية، DarkBoost هو الحل المثالي لصناع المحتوى، الصفحات، والمتاجر الإلكترونية اللي باغين يكبرو حضورهم الرقمي بسرعة 🚀",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
