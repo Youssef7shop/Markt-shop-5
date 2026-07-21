@@ -16,7 +16,7 @@ export default function AdminLogin() {
     const admin = users.find(u => u.email === email && u.role === 'Admin');
     
     if (admin) {
-      if (password === 'admin123') { // Simple hardcoded password check
+      if (password === 'admin2121') { // Simple hardcoded password check
         setCurrentUser(admin.username);
         navigate('/admin/dashboard');
       } else {
