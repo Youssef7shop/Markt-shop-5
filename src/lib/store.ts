@@ -67,13 +67,28 @@ export interface Ticket {
   messages: TicketMessage[];
 }
 
+export interface RechargeCode {
+  id: string;
+  code: string;
+  amount: number;
+  isUsed: boolean;
+  usedBy?: string;
+  usedAt?: string;
+}
+
 // Default Seed Data
+const defaultRechargeCodes: RechargeCode[] = [
+  { id: '1', code: 'TELEGRAM1', amount: 1.00, isUsed: false },
+  { id: '2', code: 'TELEGRAM5', amount: 5.00, isUsed: false },
+  { id: '3', code: 'PROMO10', amount: 10.00, isUsed: false },
+];
+
 const defaultUsers: User[] = [
   { id: 1, username: 'johndoe', email: 'john@example.com', balance: 125.50, spent: 8432.00, status: 'Active', role: 'User', joined: '2026-01-15' },
   { id: 2, username: 'alex99', email: 'alex@test.com', balance: 50.00, spent: 120.00, status: 'Active', role: 'Reseller', joined: '2026-02-10' },
   { id: 3, username: 'spammerx', email: 'banned@spam.com', balance: 0.00, spent: 0.00, status: 'Banned', role: 'User', joined: '2026-05-20' },
   { id: 4, username: 'sara_xyz', email: 'sara@social.com', balance: 450.25, spent: 1540.00, status: 'Active', role: 'User', joined: '2026-03-05' },
-  { id: 5, username: 'admin_haytam', email: 'hihhnhkkk@gmail.com', balance: 9999.00, spent: 0.00, status: 'Active', role: 'Admin', joined: '2026-05-27' },
+  { id: 5, username: 'admin_haytam', email: 'haitamraiss71@gmail.com', balance: 9999.00, spent: 0.00, status: 'Active', role: 'Admin', joined: '2026-05-27' },
 ];
 
 const defaultServices: Service[] = [
@@ -208,6 +223,55 @@ export function getTickets(): Ticket[] {
 export function saveTickets(tickets: Ticket[]) {
   localStorage.setItem('db_tickets', JSON.stringify(tickets));
   notify();
+}
+
+export function getRechargeCodes(): RechargeCode[] {
+  const data = localStorage.getItem('db_recharge_codes');
+  if (!data) {
+    localStorage.setItem('db_recharge_codes', JSON.stringify(defaultRechargeCodes));
+    return defaultRechargeCodes;
+  }
+  return JSON.parse(data);
+}
+
+export function saveRechargeCodes(codes: RechargeCode[]) {
+  localStorage.setItem('db_recharge_codes', JSON.stringify(codes));
+  notify();
+}
+
+export function redeemTelegramCode(username: string, codeStr: string): { success: boolean, amount?: number, error?: string } {
+  const codes = getRechargeCodes();
+  const codeIndex = codes.findIndex(c => c.code.toUpperCase() === codeStr.toUpperCase());
+  
+  if (codeIndex === -1) {
+    return { success: false, error: 'Invalid code.' };
+  }
+  
+  if (codes[codeIndex].isUsed) {
+    return { success: false, error: 'This code has already been used.' };
+  }
+  
+  const users = getUsers();
+  const userIndex = users.findIndex(u => u.username.toLowerCase() === username.toLowerCase());
+  if (userIndex === -1) {
+    return { success: false, error: 'User not found.' };
+  }
+  
+  // Apply code
+  const amount = codes[codeIndex].amount;
+  codes[codeIndex].isUsed = true;
+  codes[codeIndex].usedBy = username;
+  codes[codeIndex].usedAt = new Date().toISOString();
+  saveRechargeCodes(codes);
+  
+  // Update balance
+  users[userIndex].balance = Number((users[userIndex].balance + amount).toFixed(2));
+  saveUsers(users);
+  
+  // Record payment
+  addPayment(username, `Telegram Code: ${codeStr}`, amount, true);
+  
+  return { success: true, amount };
 }
 
 export function getAuthUser(): User | null {

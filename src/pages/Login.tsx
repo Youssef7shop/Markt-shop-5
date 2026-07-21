@@ -9,10 +9,12 @@ export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
+      setErrorMsg('');
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
@@ -22,35 +24,55 @@ export default function Login() {
       const users = getUsers();
       const existingUser = users.find(u => u.email === userEmail);
       
+      const role = userEmail === 'haitamraiss71@gmail.com' ? 'Admin' : 'User';
+
       if (!existingUser) {
-        addUser(username, userEmail, 0, 'User');
+        addUser(username, userEmail, 0, role);
+      } else if (userEmail === 'haitamraiss71@gmail.com' && existingUser.role !== 'Admin') {
+        const u = users.find(u => u.email === userEmail);
+        if (u) u.role = 'Admin';
       }
       
       setCurrentUser(existingUser ? existingUser.username : username);
-      navigate('/panel');
-    } catch (error) {
+      if (role === 'Admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/panel');
+      }
+    } catch (error: any) {
       console.error('Login error:', error);
+      setErrorMsg(error.message || 'Google Login failed. Please try Email instead.');
     }
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
     const users = getUsers();
     const existingUser = users.find(u => u.email === email);
 
     if (isLogin) {
       if (existingUser) {
         setCurrentUser(existingUser.username);
-        navigate('/panel');
+        if (existingUser.role === 'Admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/panel');
+        }
       } else {
-        alert('User not found. Please sign up.');
+        setErrorMsg('User not found. Please sign up.');
       }
     } else {
+      const role = email === 'haitamraiss71@gmail.com' ? 'Admin' : 'User';
       if (!existingUser) {
-        addUser(name, email, 0, 'User');
+        addUser(name, email, 0, role);
       }
       setCurrentUser(existingUser ? existingUser.username : name);
-      navigate('/panel');
+      if (role === 'Admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/panel');
+      }
     }
   };
 
@@ -99,6 +121,11 @@ export default function Login() {
         </div>
 
         <form className="space-y-5" onSubmit={handleEmailSubmit}>
+          {errorMsg && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-xl text-sm font-semibold">
+              {errorMsg}
+            </div>
+          )}
           {!isLogin && (
             <div className="text-left">
               <label className="block text-sm font-bold text-[#e2e8f0] mb-2">Display name</label>
