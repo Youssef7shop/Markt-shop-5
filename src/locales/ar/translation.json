@@ -1,0 +1,30 @@
+{
+  "landing": {
+    "home": "الرئيسية",
+    "services": "الخدمات",
+    "support": "الدعم",
+    "adminSignIn": "دخول الإدارة",
+    "signIn": "تسجيل الدخول",
+    "getStarted": "ابدأ الآن",
+    "trustedBy": "موثوق به من قبل أكثر من ١٥٠,٠٠٠ مبدع حول العالم",
+    "supercharge": "عزز تواجدك",
+    "socialPresence": "على وسائل التواصل",
+    "heroDesc": "لوحة SMM متميزة للإنستغرام، تيك توك، يوتيوب، فيسبوك وتيليجرام. تفاعل حقيقي. تسليم فوري. أسعار لا تقبل المنافسة.",
+    "startGrowing": "ابدأ النمو الآن",
+    "browseServices": "تصفح الخدمات",
+    "ordersCompleted": "طلبات مكتملة",
+    "happyCustomers": "عملاء سعداء",
+    "uptime": "مدة التشغيل",
+    "avgStartTime": "متوسط وقت البدء",
+    "publicCatalog": "الكتالوج العام",
+    "exploreCatalog": "اكتشف خدماتنا ومنتجاتنا المتميزة المتاحة لجميع الأجهزة.",
+    "pricePer1k": "السعر لكل ألف",
+    "orderNow": "اطلب الآن",
+    "viewFullCatalog": "عرض الكتالوج الكامل",
+    "readyTo": "مستعد",
+    "goViral": "للانتشار السريع؟",
+    "joinCreators": "انضم إلى أكثر من ١٥٠,٠٠٠ مبدع يثقون في BoostPanel لتنمية جمهورهم كل يوم.",
+    "createFreeAccount": "إنشاء حساب مجاني",
+    "allRightsReserved": "جميع الحقوق محفوظة."
+  }
+}

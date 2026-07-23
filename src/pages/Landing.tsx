@@ -2,10 +2,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Zap, Shield, HeadphonesIcon, TrendingUp, Star, Sparkles, Box } from 'lucide-react';
 import { useStoreState, getServices } from '@/lib/store';
-import Logo from '@/components/Logo';
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 export default function Landing() {
   const services = useStoreState(getServices);
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const lang = e.target.value;
+    i18n.changeLanguage(lang);
+  };
+
+  useEffect(() => {
+    document.documentElement.dir = i18n.language?.startsWith('ar') ? 'rtl' : 'ltr';
+  }, [i18n.language]);
+
   return (
     <div className="min-h-screen bg-dark-bg text-white overflow-hidden relative">
       {/* Background Glow */}
@@ -28,13 +40,13 @@ export default function Landing() {
           {/* Center Links */}
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className="text-white font-semibold text-sm hover:text-[#5ebdff] transition-colors">
-              Home
+              {t('landing.home')}
             </Link>
             <Link to="/panel/services" className="text-gray-400 font-semibold text-sm hover:text-white transition-colors">
-              Services
+              {t('landing.services')}
             </Link>
             <Link to="/panel/support" className="text-gray-400 font-semibold text-sm hover:text-white transition-colors">
-              Support
+              {t('landing.support')}
             </Link>
           </div>
         </div>
@@ -45,7 +57,11 @@ export default function Landing() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
             </svg>
-            <select className="bg-transparent text-xs font-semibold text-gray-300 focus:outline-none cursor-pointer appearance-none outline-none border-none">
+            <select 
+              value={i18n.language?.split('-')[0] || 'en'}
+              onChange={handleLanguageChange}
+              className="bg-transparent text-xs font-semibold text-gray-300 focus:outline-none cursor-pointer appearance-none outline-none border-none"
+            >
               <option value="en" className="bg-[#050914] text-white">English</option>
               <option value="ar" className="bg-[#050914] text-white">العربية</option>
               <option value="fr" className="bg-[#050914] text-white">Français</option>
@@ -59,7 +75,7 @@ export default function Landing() {
             className="text-[#00ff66] hover:text-[#00ff66]/80 font-semibold text-sm transition-colors flex items-center gap-1.5"
           >
             <Shield size={16} className="text-[#00ff66]" />
-            <span>Admin Sign in</span>
+            <span>{t('landing.adminSignIn')}</span>
           </Link>
 
           {/* Sign In Link */}
@@ -67,7 +83,7 @@ export default function Landing() {
             to="/login" 
             className="text-white font-semibold text-sm hover:text-gray-300 transition-colors hidden sm:block"
           >
-            Sign in
+            {t('landing.signIn')}
           </Link>
 
           {/* Gradient Get started Button */}
@@ -75,7 +91,7 @@ export default function Landing() {
             to="/login" 
             className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#5ebdff] to-[#ab60f6] text-black font-extrabold text-sm hover:scale-[1.03] transition-all shadow-[0_0_20px_rgba(94,189,255,0.15)]"
           >
-            Get started
+            {t('landing.getStarted')}
           </Link>
         </div>
       </nav>
@@ -89,7 +105,7 @@ export default function Landing() {
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0a0f1d] border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)] mb-8"
         >
           <Sparkles size={16} className="text-[#5ebdff]" />
-          <span className="text-sm font-semibold text-[#8da6cc]">Trusted by 150,000+ creators worldwide</span>
+          <span className="text-sm font-semibold text-[#8da6cc]">{t('landing.trustedBy')}</span>
         </motion.div>
 
         <motion.h1
@@ -98,7 +114,7 @@ export default function Landing() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 max-w-4xl leading-tight"
         >
-          Supercharge your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5ebdff] to-[#ab60f6]">social presence</span>
+          {t('landing.supercharge')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5ebdff] to-[#ab60f6]">{t('landing.socialPresence')}</span>
         </motion.h1>
 
         <motion.p
@@ -107,7 +123,7 @@ export default function Landing() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl"
         >
-          Premium SMM panel for Instagram, TikTok, YouTube, Facebook & Telegram. Real engagement. Instant delivery. Unbeatable prices.
+          {t('landing.heroDesc')}
         </motion.p>
 
         <motion.div
@@ -120,14 +136,14 @@ export default function Landing() {
             to="/login" 
             className="px-8 py-4.5 rounded-2xl bg-gradient-to-r from-[#5ebdff] to-[#ab60f6] text-black font-extrabold text-lg hover:scale-[1.02] transform transition-all shadow-[0_0_25px_rgba(94,189,255,0.25)] flex items-center gap-2"
           >
-            <span>Start growing now</span>
-            <ArrowRight size={20} className="stroke-[3]" />
+            <span>{t('landing.startGrowing')}</span>
+            <ArrowRight size={20} className="stroke-[3] rtl:rotate-180" />
           </Link>
           <Link 
             to="/panel/services" 
             className="px-8 py-4.5 rounded-2xl bg-[#090d16]/80 border border-white/10 text-white font-extrabold text-lg hover:bg-white/5 transition-all"
           >
-            Browse services
+            {t('landing.browseServices')}
           </Link>
         </motion.div>
 
@@ -184,7 +200,7 @@ export default function Landing() {
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#ab60f6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ab60f6] to-[#5ebdff] mb-2.5 tracking-tight">2.4M+</div>
-            <div className="text-sm font-semibold text-gray-400">Orders completed</div>
+            <div className="text-sm font-semibold text-gray-400">{t('landing.ordersCompleted')}</div>
           </motion.div>
 
           {/* Card 2 - 150K+ */}
@@ -196,7 +212,7 @@ export default function Landing() {
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#5ebdff]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5ebdff] to-[#ab60f6] mb-2.5 tracking-tight">150K+</div>
-            <div className="text-sm font-semibold text-gray-400">Happy customers</div>
+            <div className="text-sm font-semibold text-gray-400">{t('landing.happyCustomers')}</div>
           </motion.div>
 
           {/* Card 3 - 99.9% */}
@@ -208,7 +224,7 @@ export default function Landing() {
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#ab60f6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#ab60f6] to-[#5ebdff] mb-2.5 tracking-tight">99.9%</div>
-            <div className="text-sm font-semibold text-gray-400">Uptime</div>
+            <div className="text-sm font-semibold text-gray-400">{t('landing.uptime')}</div>
           </motion.div>
 
           {/* Card 4 - < 30s */}
@@ -220,7 +236,7 @@ export default function Landing() {
           >
             <div className="absolute inset-0 bg-gradient-to-b from-[#5ebdff]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             <div className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5ebdff] to-[#ab60f6] mb-2.5 tracking-tight">&lt; 30s</div>
-            <div className="text-sm font-semibold text-gray-400">Avg. start time</div>
+            <div className="text-sm font-semibold text-gray-400">{t('landing.avgStartTime')}</div>
           </motion.div>
         </div>
 
@@ -234,10 +250,10 @@ export default function Landing() {
         >
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-white">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5ebdff] to-[#ab60f6]">Public Catalog</span>
+              {t('landing.publicCatalog')}
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Explore our top-tier services and products available for all devices.
+              {t('landing.exploreCatalog')}
             </p>
           </div>
 
@@ -280,14 +296,14 @@ export default function Landing() {
                   
                   <div className="flex items-end justify-between mt-6">
                     <div>
-                      <span className="block text-xs font-bold text-gray-500 mb-1">Price per 1k</span>
+                      <span className="block text-xs font-bold text-gray-500 mb-1">{t('landing.pricePer1k')}</span>
                       <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">${Number(service.price).toFixed(2)}</span>
                     </div>
                     <Link 
                       to="/login"
                       className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-xl text-sm font-bold transition-colors"
                     >
-                      Order Now
+                      {t('landing.orderNow')}
                     </Link>
                   </div>
                 </div>
@@ -301,7 +317,7 @@ export default function Landing() {
                 to="/login" 
                 className="inline-flex px-8 py-4 rounded-2xl bg-[#090d16]/80 border border-white/10 text-white font-extrabold text-sm hover:bg-white/5 transition-all"
               >
-                View full catalog ({services.length} services)
+                {t('landing.viewFullCatalog')} ({services.length} services)
               </Link>
             </div>
           )}
@@ -331,12 +347,12 @@ export default function Landing() {
 
             {/* Headings */}
             <h2 className="text-4xl md:text-5xl font-extrabold mb-5 tracking-tight text-white leading-tight">
-              Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2cc4ff] to-[#bd39ff] drop-shadow-[0_0_15px_rgba(44,196,255,0.25)]">go viral?</span>
+              {t('landing.readyTo')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2cc4ff] to-[#bd39ff] drop-shadow-[0_0_15px_rgba(44,196,255,0.25)]">{t('landing.goViral')}</span>
             </h2>
 
             {/* Subtitle */}
             <p className="text-gray-400 text-base md:text-lg mb-10 max-w-xl leading-relaxed">
-              Join 150,000+ creators who trust DarkBoost to grow their audience every day.
+              {t('landing.joinCreators')}
             </p>
 
             {/* Action Button */}
@@ -348,7 +364,7 @@ export default function Landing() {
                 to="/login" 
                 className="relative flex items-center justify-center px-10 py-4.5 rounded-2xl bg-gradient-to-r from-[#5ebdff] to-[#ab60f6] text-black font-extrabold text-lg hover:scale-[1.02] transform transition-all duration-200"
               >
-                Create free account
+                {t('landing.createFreeAccount')}
               </Link>
             </div>
           </div>
@@ -356,7 +372,7 @@ export default function Landing() {
 
         {/* Footer */}
         <footer className="text-center py-8 text-sm text-gray-500 font-mono tracking-wider relative z-10 mb-8 border-t border-white/5 w-full max-w-6xl mx-auto">
-          © {new Date().getFullYear()} DarkBoost. All rights reserved.
+          © {new Date().getFullYear()} DarkBoost. {t('landing.allRightsReserved')}
         </footer>
       </main>
     </div>

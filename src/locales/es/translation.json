@@ -1,0 +1,30 @@
+{
+  "landing": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "support": "Soporte",
+    "adminSignIn": "Ingreso Admin",
+    "signIn": "Iniciar sesión",
+    "getStarted": "Empezar",
+    "trustedBy": "Confiado por más de 150,000 creadores",
+    "supercharge": "Impulsa tu",
+    "socialPresence": "presencia social",
+    "heroDesc": "Panel SMM premium para Instagram, TikTok, YouTube, Facebook y Telegram. Interacción real. Entrega instantánea. Precios inmejorables.",
+    "startGrowing": "Empieza a crecer",
+    "browseServices": "Ver servicios",
+    "ordersCompleted": "Pedidos completados",
+    "happyCustomers": "Clientes felices",
+    "uptime": "Tiempo en línea",
+    "avgStartTime": "Tiempo prom. de inicio",
+    "publicCatalog": "Catálogo Público",
+    "exploreCatalog": "Explora nuestros servicios y productos de primer nivel.",
+    "pricePer1k": "Precio por 1k",
+    "orderNow": "Ordenar Ahora",
+    "viewFullCatalog": "Ver catálogo completo",
+    "readyTo": "¿Listo para",
+    "goViral": "hacerte viral?",
+    "joinCreators": "Únete a más de 150,000 creadores que confían en BoostPanel.",
+    "createFreeAccount": "Crear cuenta gratis",
+    "allRightsReserved": "Todos los derechos reservados."
+  }
+}
