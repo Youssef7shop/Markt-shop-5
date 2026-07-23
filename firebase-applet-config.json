@@ -3,6 +3,7 @@
   "appId": "1:243829930590:web:6fa95597e8608ab9f292cf",
   "apiKey": "AIzaSyAmxB0W3aVFcCadWEJLxeFXMAbLRERADU0",
   "authDomain": "precise-chiller-ch7sp.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-darkboost-36380a39-507b-4cd8-83c9-339f3d10b357",
   "storageBucket": "precise-chiller-ch7sp.firebasestorage.app",
   "messagingSenderId": "243829930590",
   "measurementId": "",

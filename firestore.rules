@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function incoming() {
+      return request.resource.data;
+    }
+    
+    function existing() {
+      return resource.data;
+    }
+    
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    
+    function isValidUser(data) {
+      return data.keys().hasAll(['id', 'username', 'email', 'balance', 'spent', 'status', 'role', 'joined']) &&
+             data.keys().size() == 8 &&
+             data.id is string && data.id.size() <= 128 &&
+             data.username is string && data.username.size() <= 50 &&
+             data.email is string && data.email.size() <= 100 &&
+             data.balance is number &&
+             data.spent is number &&
+             data.status in ['Active', 'Banned'] &&
+             data.role in ['User', 'Reseller', 'Admin'] &&
+             data.joined is string;
+    }
+    
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow create: if isSignedIn() && request.auth.uid == userId && isValidId(userId) && isValidUser(incoming()) && incoming().id == userId && incoming().role == 'User' && incoming().balance == 0 && incoming().spent == 0;
+      allow update: if isSignedIn() && request.auth.uid == userId && isValidId(userId) && isValidUser(incoming()) && incoming().id == existing().id && incoming().role == existing().role && incoming().balance == existing().balance && incoming().spent == existing().spent && incoming().joined == existing().joined;
+    }
+  }
+}
